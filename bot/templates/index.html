@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<h1>Chatbot de exploración espacial</h1>
+<div>
+<div id = "chatbox">
+<p class = "botText"><span>Hola, soy chatty. Ya era que terminaras el primer módulo.
+    Si tienes alguna duda del material, intenta introducir una palabra clave para
+    proporcionar información extra. Si  no es así, introdude "SECCIÓN #", sustituyendo el # por 
+    el número de la sección que sigue y pega el link en el navegador para ir a la siguiente sección
+</span></p>
+<p class = "botText"><span>
+    Ejemplos:
+</span></p>
+<p class = "botText"><span>
+    perra laika
+</span></p>
+<p class = "botText"><span>
+    SECCIÓN 2
+</span></p>
+</div>
+<div id = "userInput">
+<input id ="textInput" type ="text" name="msg" placeholder="Message">
+<input id = "buttonInput" type = "submit" value="Send">
+</div>
+<script>
+function getBotResponse(){
+var rawText = $("#textInput").val();
+var userHtml = '<p class = "userText"><span>' + rawText + '</span></p>';
+$("#textInput").val("");
+$("#chatbox").append(userHtml);
+document.getElementById('userInput').scrollIntoView({block:'start',behaviour:'smooth'});
+$.get("/get", {msg:rawText }).done(function(data) {
+var botHtml = '<p class ="botText"><span>' + data + '</span></p>';
+$("#chatbox").append(botHtml);
+document.getElementById('userInput').scrollIntoView({block : 'start',behaviour:'smooth'});
+});
+}
+$("#textInput").keypress(function(e) {
+if(e.which == 13) {
+getBotResponse();
+}
+});
+$("#buttonInput").click(function() {
+getBotResponse();
+})
+</script>
+</div>
+</body>
+</html>
