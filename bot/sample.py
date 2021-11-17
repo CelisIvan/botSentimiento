@@ -2,8 +2,11 @@ from flask import Flask,render_template,request
 from chatterbot import ChatBot
 from chatterbot.trainers import ChatterBotCorpusTrainer
 
-default = 'Formula bien tu pregunta. Sigue el ejemplo e intenta de otra forma'
+default = 'Formula bien tu pregunta. Sigue el ejemplo o hazlo con otro tema'
 negativeResponses = [
+     " ",
+     " ",
+     " ",
      "Puedes hacer preguntas más interesantes. ",
      "Estaba muy claro en la lectura. ",
      "Confío en que puedes hacerlo mejor. ",
@@ -20,13 +23,19 @@ negativeResponses = [
      "Aún espero que lo hagas mejor. ",
      "Aprovecha el potencial que tienes, no es una lectura difícil. ",
      "Esperaba mejor desempeño para el tiempo que se te dio. ",
+     " ",
+     " ",
+     " ",
    "Cambia tu método de estudio, se ve que no está funcionando para nada. "
    "Entender esto es bastante sencillo. ",
    "Puede notarse que no hiciste el esfuerzo necesario ni para entender el tema. ", 
    "Demuestra que la calificación obtenida fue a base de esfuerzo. " ,
    "No tendrías tantas preguntas si prestaras atención. ", 
    "Considero que puedes esforzarte más. ",
-   "Esperemos te vaya mejor en la evaluación final. "
+   "Esperemos te vaya mejor en la evaluación final. ",
+   " ",
+     " ",
+     " ",
 ]
 
 negativeForSections = [
@@ -59,14 +68,16 @@ def index():
 @app.route("/get")
 def get_bot_response():
      userText = request.args.get("msg") #get data from input,we write js  to index.html
-     if userText == "SECCIÓN 2":
-          return random.choice(negativeForSections) + "http://localhost:4200/atls2"
-     elif userText == "SECCIÓN 3":
-          return random.choice(negativeForSections) + "http://localhost:4200/apasels3"
-     elif userText == "SECCIÓN 4":
-          return random.choice(negativeForSections) + "http://localhost:4200/fpvls4"
-     elif userText == "SECCIÓN 1":
-          return random.choice(negativeForSections) + "http://localhost:4200/eels1"
+     if userText.lower() == "sección 2" or  userText.lower() == "seccion 2":
+          return  "https://tesina-331906.oa.r.appspot.com/atls2"
+     elif userText.lower() == "sección 3" or  userText.lower() == "seccion 3":
+          return "https://tesina-331906.oa.r.appspot.com/apasels3"
+     elif userText.lower() == "sección 4" or  userText.lower() == "seccion 4":
+          return "https://tesina-331906.oa.r.appspot.com/fpvls4"
+     elif  userText.lower() == "sección 1" or  userText.lower() == "seccion 1":
+          return "https://tesina-331906.oa.r.appspot.com/eels1"
+     elif userText.lower() == "evaluación" or  userText.lower() == "evaluacion":
+          return "https://forms.gle/9jTosphAEVajCniNA"
      responseText = str(spanish_bot.get_response(userText))
      if responseText == "What is AI?":
           return default
